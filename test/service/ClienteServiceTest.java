@@ -1,5 +1,6 @@
 package service;
 
+import dao.ClienteDaoMock;
 import dao.IClienteDAO;
 import domain.Cliente;
 import exception.TipoChaveNaoEncontradaException;
@@ -11,48 +12,52 @@ import services.ClienteService;
 import services.IClienteService;
 
 public class ClienteServiceTest {
-    IClienteService clienteService;
+
+    private IClienteService clienteService;
+
     private Cliente cliente;
 
-    public ClienteServiceTest(){
-        IClienteDAO dao = new ClienteDAOMock();
+    public ClienteServiceTest() {
+        IClienteDAO dao = new ClienteDaoMock();
         clienteService = new ClienteService(dao);
     }
 
     @Before
-    public void init() throws TipoChaveNaoEncontradaException {
+    public void init() {
         cliente = new Cliente();
         cliente.setCpf(12312312312L);
         cliente.setNome("Vinicius");
         cliente.setCidade("São Paulo");
-        cliente.setEnd(null);
+        cliente.setEnd("End");
         cliente.setEstado("SP");
         cliente.setNumero(10);
-        cliente.setTel(11999999999L);
+        cliente.setTel(1199999999L);
+
     }
 
     @Test
-    public void pesquisarCliente(){
-        Cliente clienteConsultado = clienteService.consultar(cliente.getCpf());
+    public void pesquisarCliente() {
+        Cliente clienteConsultado = clienteService.buscarPorCPF(cliente.getCpf());
         Assert.assertNotNull(clienteConsultado);
     }
 
     @Test
     public void salvarCliente() throws TipoChaveNaoEncontradaException {
         Boolean retorno = clienteService.cadastrar(cliente);
+
         Assert.assertTrue(retorno);
     }
 
     @Test
-    public void excluirCliente(){
+    public void excluirCliente() {
         clienteService.excluir(cliente.getCpf());
     }
 
     @Test
     public void alterarCliente() throws TipoChaveNaoEncontradaException {
-        cliente.setNome("Vinicius Teste");
+        cliente.setNome("Vinicius Alves");
         clienteService.alterar(cliente);
-        Assert.assertEquals("Vinicius Teste",cliente.getNome());
+
+        Assert.assertEquals("Vinicius Alves", cliente.getNome());
     }
 }
-

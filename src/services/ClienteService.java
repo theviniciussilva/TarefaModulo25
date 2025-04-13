@@ -1,37 +1,37 @@
 package services;
 
-import dao.ClienteDAO;
-import dao.IClienteDAO;
-import dao.generics.GenericDAO;
-import domain.Cliente;
-import domain.Persistente;
-import exception.TipoChaveNaoEncontradaException;
-import services.generics.GenericService;
-import services.generics.IGenericService;
 
-import java.io.Serializable;
+import dao.IClienteDAO;
+import domain.Cliente;
+import services.generics.GenericService;
 
 public class ClienteService extends GenericService<Cliente, Long> implements IClienteService {
 
-    IClienteDAO cliente;
+    //private IClienteDAO clienteDAO;
 
-    public ClienteService(IClienteDAO cliente){
-        this.cliente = cliente;
+    public ClienteService(IClienteDAO clienteDAO) {
+        super(clienteDAO);
+        //this.clienteDAO = clienteDAO;
     }
+
+//	@Override
+//	public Boolean salvar(Cliente cliente) throws TipoChaveNaoEncontradaException {
+//		return clienteDAO.cadastrar(cliente);
+//	}
 
     @Override
-    public Class<Cliente> getTipoClasse() {
-        return null;
+    public Cliente buscarPorCPF(Long cpf) {
+        return this.dao.consultar(cpf);
     }
 
-    @Override
-    public void atualiarDados(Cliente entity, Cliente entityCadastrado) {
-        entityCadastrado.setCidade(entity.getCidade());
-        entityCadastrado.setCpf(entity.getCpf());
-        entityCadastrado.setEnd(entity.getEnd());
-        entityCadastrado.setEstado(entity.getEstado());
-        entityCadastrado.setNome(entity.getNome());
-        entityCadastrado.setNumero(entity.getNumero());
-        entityCadastrado.setTel(entity.getTel());
-    }
+//	@Override
+//	public void excluir(Long cpf) {
+//		clienteDAO.excluir(cpf);
+//	}
+//
+//	@Override
+//	public void alterar(Cliente cliente) throws TipoChaveNaoEncontradaException{
+//		clienteDAO.alterar(cliente);
+//	}
+
 }
